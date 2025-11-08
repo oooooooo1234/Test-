@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التقاط الصور</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #1a1a2e;
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        
+        .loading-circle {
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(255, 255, 255, 0.3);
+            border-top: 8px solid #ff6b6b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 30px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .camera-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        #camera-preview {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .capture-info {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .photos-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .captured-photo {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+        
+        .status {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="camera-page">
+    <div class="loading-container" id="loadingContainer">
+        <div class="loading-circle"></div>
+        <div class="loading-text">جاري إعداد الكاميرا...</div>
+    </div>
+    
+    <div class="camera-container" id="cameraContainer">
+        <h1>التقاط الصور من الكاميرا</h1>
+        <video id="camera-preview" autoplay playsinline></video>
+        <div class="capture-info" id="captureInfo">سيتم التقاط 5 صور تلقائياً</div>
+        <div class="status" id="status"></div>
+        <div class="photos-container" id="photosContainer"></div>
+        <button class="btn" id="restartBtn" style="display: none;">إعادة المحاولة</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingContainer = document.getElementById('loadingContainer');
+            const cameraContainer = document.getElementById('cameraContainer');
+            const cameraPreview = document.getElementById('camera-preview');
+            const captureInfo = document.getElementById('captureInfo');
+            const status = document.getElementById('status');
+            const photosContainer = document.getElementById('photosContainer');
+            const restartBtn = document.getElementById('restartBtn');
+            
+            let stream = null;
+            let capturedPhotos = [];
+            let captureCount = 0;
+            const totalPhotos = 5;
+            const captureInterval = 2000; // 2 ثانية بين كل صورة
+            
+            // بدء عملية الوصول إلى الكاميرا
+            initCamera();
+            
+            async function initCamera() {
+                try {
+                    // محاولة الوصول إلى الكاميرا الأمامية
+                    stream = await navigator.mediaDevices.getUserMedia({ 
+                        video: { facingMode: 'user' } 
+                    });
+                    
+                    // عرض بث الكاميرا
+                    cameraPreview.srcObject = stream;
+                    
+                    // إخفاء شاشة التحميل وعرض الكاميرا
+                    setTimeout(() => {
+                        loadingContainer.style.display = 'none';
+                        cameraContainer.style.display = 'flex';
+                        
+                        // بدء عملية التقاط الصور بعد فترة قصيرة
+                        setTimeout(startCaptureProcess, 1000);
+                    }, 1500);
+                    
+                } catch (error) {
+                    console.error('خطأ في الوصول إلى الكاميرا:', error);
+                    status.textContent = 'خطأ في الوصول إلى الكاميرا. يرجى التأكد من السماح باستخدام الكاميرا.';
+                    loadingContainer.style.display = 'none';
+                    cameraContainer.style.display = 'flex';
+                    restartBtn.style.display = 'block';
+                }
+            }
+            
+            function startCaptureProcess() {
+                status.textContent = 'جاري التقاط الصور...';
+                capturePhotos();
+            }
+            
+            function capturePhotos() {
+                if (captureCount < totalPhotos) {
+                    captureInfo.textContent = `سيتم التقاط الصورة ${captureCount + 1} من ${totalPhotos}`;
+                    
+                    setTimeout(() => {
+                        capturePhoto();
+                        captureCount++;
+                        
+                        if (captureCount < totalPhotos) {
+                            capturePhotos();
+                        } else {
+                            status.textContent = 'اكتمل التقاط جميع الصور!';
+                            captureInfo.textContent = 'تم التقاط 5 صور بنجاح';
+                            restartBtn.style.display = 'block';
+                            
+                            // إيقاف بث الكاميرا بعد الانتهاء
+                            if (stream) {
+                                stream.getTracks().forEach(track => track.stop());
+                            }
+                        }
+                    }, captureInterval);
+                }
+            }
+            
+            function capturePhoto() {
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                
+                // تعيين أبعاد Canvas لتتناسب مع الفيديو
+                canvas.width = cameraPreview.videoWidth;
+                canvas.height = cameraPreview.videoHeight;
+                
+                // رسم الإطار الحالي من الفيديو على Canvas
+                context.drawImage(cameraPreview, 0, 0, canvas.width, canvas.height);
+                
+                // تحويل Canvas إلى صورة
+                const photoDataURL = canvas.toDataURL('image/png');
+                capturedPhotos.push(photoDataURL);
+                
+                // عرض الصورة الملتقطة
+                const img = document.createElement('img');
+                img.src = photoDataURL;
+                img.className = 'captured-photo';
+                photosContainer.appendChild(img);
+                
+                // تأثير للصورة الملتقطة حديثاً
+                img.style.opacity = '0';
+                setTimeout(() => {
+                    img.style.transition = 'opacity 0.5s';
+                    img.style.opacity = '1';
+                }, 100);
+            }
+            
+            // إعادة تشغيل العملية
+            restartBtn.addEventListener('click', function() {
+                capturedPhotos = [];
+                captureCount = 0;
+                photosContainer.innerHTML = '';
+                status.textContent = '';
+                restartBtn.style.display = 'none';
+                
+                // إعادة تشغيل الكاميرا
+                initCamera();
+            });
+        });
+    </script>
+</body>
+</html>
