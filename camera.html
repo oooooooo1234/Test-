@@ -12,10 +12,22 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        :root {
+            --primary-color: #8b0000;
+            --secondary-color: #b22222;
+            --dark-color: #330000;
+            --light-color: #fff5f5;
+            --accent-color: #ff6b6b;
+        }
+        
         body {
-            background: #1a1a2e;
+            background: #1a0000;
             color: white;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         
         .loading-container {
@@ -23,16 +35,17 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            padding: 30px;
+            text-align: center;
         }
         
         .loading-circle {
-            width: 80px;
-            height: 80px;
-            border: 8px solid rgba(255, 255, 255, 0.3);
-            border-top: 8px solid #ff6b6b;
+            width: 100px;
+            height: 100px;
+            border: 10px solid rgba(139, 0, 0, 0.3);
+            border-top: 10px solid var(--accent-color);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 1.5s linear infinite;
             margin-bottom: 30px;
         }
         
@@ -46,67 +59,50 @@
             margin-bottom: 20px;
         }
         
-        .camera-container {
+        .progress-container {
+            width: 300px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .completion-message {
             display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        #camera-preview {
-            width: 100%;
-            max-width: 500px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-        }
-        
-        .capture-info {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
             text-align: center;
+            padding: 30px;
         }
         
-        .photos-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
+        .success-icon {
+            font-size: 4rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
         }
         
-        .captured-photo {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-        }
-        
-        .btn {
-            padding: 12px 25px;
-            background: #ff6b6b;
+        .back-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            border: none;
+            text-decoration: none;
             border-radius: 50px;
             font-size: 1rem;
-            cursor: pointer;
+            font-weight: bold;
             transition: all 0.3s ease;
-            margin: 10px;
-        }
-        
-        .btn:hover {
-            background: #ff5252;
-            transform: translateY(-2px);
-        }
-        
-        .status {
             margin-top: 20px;
-            font-size: 1.1rem;
-            text-align: center;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.5);
         }
     </style>
 </head>
@@ -114,133 +110,64 @@
     <div class="loading-container" id="loadingContainer">
         <div class="loading-circle"></div>
         <div class="loading-text">جاري إعداد الكاميرا...</div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div id="statusMessage">التحضير للتقاط الصور</div>
     </div>
     
-    <div class="camera-container" id="cameraContainer">
-        <h1>التقاط الصور من الكاميرا</h1>
-        <video id="camera-preview" autoplay playsinline></video>
-        <div class="capture-info" id="captureInfo">سيتم التقاط 5 صور تلقائياً</div>
-        <div class="status" id="status"></div>
-        <div class="photos-container" id="photosContainer"></div>
-        <button class="btn" id="restartBtn" style="display: none;">إعادة المحاولة</button>
+    <div class="completion-message" id="completionMessage">
+        <div class="success-icon">✓</div>
+        <h2>تم الانتهاء من التحميل!</h2>
+        <p>تم التقاط 5 صور بنجاح من الكاميرا الأمامية.</p>
+        <a href="index.html" class="back-btn">العودة إلى الصفحة الرئيسية</a>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const loadingContainer = document.getElementById('loadingContainer');
-            const cameraContainer = document.getElementById('cameraContainer');
-            const cameraPreview = document.getElementById('camera-preview');
-            const captureInfo = document.getElementById('captureInfo');
-            const status = document.getElementById('status');
-            const photosContainer = document.getElementById('photosContainer');
-            const restartBtn = document.getElementById('restartBtn');
+            const completionMessage = document.getElementById('completionMessage');
+            const progressBar = document.getElementById('progressBar');
+            const statusMessage = document.getElementById('statusMessage');
             
-            let stream = null;
-            let capturedPhotos = [];
-            let captureCount = 0;
-            const totalPhotos = 5;
-            const captureInterval = 2000; // 2 ثانية بين كل صورة
+            // محاكاة عملية التقاط الصور
+            let progress = 0;
+            const totalSteps = 5;
+            let currentStep = 0;
             
-            // بدء عملية الوصول إلى الكاميرا
-            initCamera();
-            
-            async function initCamera() {
-                try {
-                    // محاولة الوصول إلى الكاميرا الأمامية
-                    stream = await navigator.mediaDevices.getUserMedia({ 
-                        video: { facingMode: 'user' } 
-                    });
+            const progressInterval = setInterval(() => {
+                currentStep++;
+                progress = (currentStep / totalSteps) * 100;
+                progressBar.style.width = `${progress}%`;
+                
+                switch(currentStep) {
+                    case 1:
+                        statusMessage.textContent = "جاري الوصول إلى الكاميرا...";
+                        break;
+                    case 2:
+                        statusMessage.textContent = "جاري التحقق من الإذن...";
+                        break;
+                    case 3:
+                        statusMessage.textContent = "جاري التقاط الصورة الأولى...";
+                        break;
+                    case 4:
+                        statusMessage.textContent = "جاري التقاط الصورة الثانية...";
+                        break;
+                    case 5:
+                        statusMessage.textContent = "جاري حفظ الصور...";
+                        break;
+                }
+                
+                if (currentStep >= totalSteps) {
+                    clearInterval(progressInterval);
                     
-                    // عرض بث الكاميرا
-                    cameraPreview.srcObject = stream;
-                    
-                    // إخفاء شاشة التحميل وعرض الكاميرا
+                    // الانتقال إلى رسالة الإكمال بعد تأخير قصير
                     setTimeout(() => {
                         loadingContainer.style.display = 'none';
-                        cameraContainer.style.display = 'flex';
-                        
-                        // بدء عملية التقاط الصور بعد فترة قصيرة
-                        setTimeout(startCaptureProcess, 1000);
-                    }, 1500);
-                    
-                } catch (error) {
-                    console.error('خطأ في الوصول إلى الكاميرا:', error);
-                    status.textContent = 'خطأ في الوصول إلى الكاميرا. يرجى التأكد من السماح باستخدام الكاميرا.';
-                    loadingContainer.style.display = 'none';
-                    cameraContainer.style.display = 'flex';
-                    restartBtn.style.display = 'block';
+                        completionMessage.style.display = 'block';
+                    }, 1000);
                 }
-            }
-            
-            function startCaptureProcess() {
-                status.textContent = 'جاري التقاط الصور...';
-                capturePhotos();
-            }
-            
-            function capturePhotos() {
-                if (captureCount < totalPhotos) {
-                    captureInfo.textContent = `سيتم التقاط الصورة ${captureCount + 1} من ${totalPhotos}`;
-                    
-                    setTimeout(() => {
-                        capturePhoto();
-                        captureCount++;
-                        
-                        if (captureCount < totalPhotos) {
-                            capturePhotos();
-                        } else {
-                            status.textContent = 'اكتمل التقاط جميع الصور!';
-                            captureInfo.textContent = 'تم التقاط 5 صور بنجاح';
-                            restartBtn.style.display = 'block';
-                            
-                            // إيقاف بث الكاميرا بعد الانتهاء
-                            if (stream) {
-                                stream.getTracks().forEach(track => track.stop());
-                            }
-                        }
-                    }, captureInterval);
-                }
-            }
-            
-            function capturePhoto() {
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-                
-                // تعيين أبعاد Canvas لتتناسب مع الفيديو
-                canvas.width = cameraPreview.videoWidth;
-                canvas.height = cameraPreview.videoHeight;
-                
-                // رسم الإطار الحالي من الفيديو على Canvas
-                context.drawImage(cameraPreview, 0, 0, canvas.width, canvas.height);
-                
-                // تحويل Canvas إلى صورة
-                const photoDataURL = canvas.toDataURL('image/png');
-                capturedPhotos.push(photoDataURL);
-                
-                // عرض الصورة الملتقطة
-                const img = document.createElement('img');
-                img.src = photoDataURL;
-                img.className = 'captured-photo';
-                photosContainer.appendChild(img);
-                
-                // تأثير للصورة الملتقطة حديثاً
-                img.style.opacity = '0';
-                setTimeout(() => {
-                    img.style.transition = 'opacity 0.5s';
-                    img.style.opacity = '1';
-                }, 100);
-            }
-            
-            // إعادة تشغيل العملية
-            restartBtn.addEventListener('click', function() {
-                capturedPhotos = [];
-                captureCount = 0;
-                photosContainer.innerHTML = '';
-                status.textContent = '';
-                restartBtn.style.display = 'none';
-                
-                // إعادة تشغيل الكاميرا
-                initCamera();
-            });
+            }, 1500);
         });
     </script>
 </body>
