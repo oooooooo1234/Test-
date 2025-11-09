@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>التقاط الصور</title>
+    <title>لوحة تحكم الادمن</title>
     <style>
         * {
             margin: 0;
@@ -11,163 +11,314 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
-        :root {
-            --primary-color: #8b0000;
-            --secondary-color: #b22222;
-            --dark-color: #330000;
-            --light-color: #fff5f5;
-            --accent-color: #ff6b6b;
-        }
-        
         body {
             background: #1a0000;
             color: white;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            align-items: stretch;
+            justify-content: flex-start;
         }
-        
-        .loading-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 30px;
+        header {
+            background: linear-gradient(90deg, #8b0000 40%, #b22222 100%);
+            padding: 25px;
             text-align: center;
-        }
-        
-        .loading-circle {
-            width: 100px;
-            height: 100px;
-            border: 10px solid rgba(139, 0, 0, 0.3);
-            border-top: 10px solid var(--accent-color);
-            border-radius: 50%;
-            animation: spin 1.5s linear infinite;
+            font-size: 2rem;
+            font-weight: bold;
             margin-bottom: 30px;
+            letter-spacing: 2px;
         }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .loading-text {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-        }
-        
-        .progress-container {
-            width: 300px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-        
-        .completion-message {
-            display: none;
-            text-align: center;
+        .admin-panel {
+            margin: auto;
+            width: 96%;
+            max-width: 850px;
+            background: #220000d0;
             padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 7px 24px #8b000030;
         }
-        
-        .success-icon {
-            font-size: 4rem;
-            color: var(--accent-color);
-            margin-bottom: 20px;
+        .admin-section {
+            margin-bottom: 35px;
         }
-        
+        .admin-section:last-child {
+            margin-bottom: 0;
+        }
+        h2 {
+            color: #ff6b6b;
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+        .accounts-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff2;
+            margin-bottom: 12px;
+        }
+        .accounts-table th, .accounts-table td {
+            border: 1px solid #330000;
+            padding: 10px 8px;
+            text-align: center;
+            font-size: 1rem;
+        }
+        .accounts-table th {
+            background: #8b0000cc;
+            color: #fff;
+        }
+        .accounts-table tbody tr:nth-child(even) {
+            background: #20001060;
+        }
+        .form-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .form-row label {
+            font-size: 1rem;
+            color: #ffd1d1;
+            min-width: 80px;
+        }
+        .form-row input, .form-row select {
+            padding: 7px 12px;
+            border-radius: 6px;
+            border: none;
+            background: #fff2;
+            color: #330000;
+            font-size: 1rem;
+            outline: none;
+        }
+        .form-row input[type="number"]::-webkit-inner-spin-button,
+        .form-row input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+        }
+        .admin-action-btn {
+            background: linear-gradient(90deg, #b22222 40%, #ff6b6b 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 9px 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-right: 8px;
+            transition: transform .12s;
+        }
+        .admin-action-btn:hover {
+            box-shadow: 0 4px 16px #b22222ad;
+            transform: translateY(-2px);
+        }
+        .summary {
+            margin: 18px 0;
+            padding: 18px 14px;
+            background: #ff6b6b22;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            color: #fff;
+        }
+        .success-message, .error-message {
+            margin: 10px 0;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .success-message {
+            background: #187928;
+            color: #fff;
+        }
+        .error-message {
+            background: #8b0000;
+            color: #fffad1;
+        }
         .back-btn {
-            display: inline-block;
+            display: block;
+            width: max-content;
+            margin: 30px auto 0;
             padding: 12px 30px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(135deg, #8b0000, #b22222);
             color: white;
             text-decoration: none;
             border-radius: 50px;
             font-size: 1rem;
             font-weight: bold;
-            transition: all 0.3s ease;
-            margin-top: 20px;
+            transition: all 0.3s;
         }
-        
         .back-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.5);
+            box-shadow: 0 5px 15px rgba(139,0,0,.5);
         }
     </style>
 </head>
-<body class="camera-page">
-    <div class="loading-container" id="loadingContainer">
-        <div class="loading-circle"></div>
-        <div class="loading-text">جاري إعداد الكاميرا...</div>
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
+<body>
+    <header>
+        لوحة تحكم الأدمن
+    </header>
+    <div class="admin-panel">
+        <!-- نسبة المكسب والتحكم -->
+        <div class="admin-section">
+            <h2>تعديل نسبة مكسب كل حساب اليوم</h2>
+            <form id="profitForm">
+                <div class="form-row">
+                    <label for="profitAccount">الحساب:</label>
+                    <select id="profitAccount"></select>
+                </div>
+                <div class="form-row">
+                    <label for="profitRate">النسبة الجديدة %:</label>
+                    <input type="number" id="profitRate" min="0" max="100" step="0.1" required>
+                </div>
+                <button class="admin-action-btn" type="submit">تعديل النسبة</button>
+            </form>
+            <div id="profitFormMsg"></div>
         </div>
-        <div id="statusMessage">التحضير للتقاط الصور</div>
+
+        <!-- عمليات الإيداع والسحب -->
+        <div class="admin-section">
+            <h2>عملية الإيداع أو السحب</h2>
+            <form id="transactionForm">
+                <div class="form-row">
+                    <label for="transAccount">الحساب:</label>
+                    <select id="transAccount"></select>
+                </div>
+                <div class="form-row">
+                    <label for="transType">العملية:</label>
+                    <select id="transType">
+                        <option value="deposit">إيداع</option>
+                        <option value="withdraw">سحب</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label for="transAmount">المبلغ:</label>
+                    <input type="number" id="transAmount" min="1" required>
+                </div>
+                <button class="admin-action-btn" type="submit">تنفيذ العملية</button>
+            </form>
+            <div id="transactionFormMsg"></div>
+        </div>
+
+        <!-- جدول الحسابات -->
+        <div class="admin-section">
+            <h2>كل الحسابات</h2>
+            <div class="summary" id="todayProfitSummary"></div>
+            <table class="accounts-table" id="accountsTable">
+                <thead>
+                    <tr>
+                        <th>المعرف</th>
+                        <th>اسم الحساب</th>
+                        <th>الرصيد الحالي</th>
+                        <th>نسبة المكسب اليوم %</th>
+                        <th>مكسب اليوم</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- بيانات الحسابات تظهر هنا -->
+                </tbody>
+            </table>
+        </div>
     </div>
-    
-    <div class="completion-message" id="completionMessage">
-        <div class="success-icon">✓</div>
-        <h2>تم الانتهاء من التحميل!</h2>
-        <p>تم التقاط 5 صور بنجاح من الكاميرا الأمامية.</p>
-        <a href="index.html" class="back-btn">العودة إلى الصفحة الرئيسية</a>
-    </div>
+    <a href="index.html" class="back-btn">العودة إلى الصفحة الرئيسية</a>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const loadingContainer = document.getElementById('loadingContainer');
-            const completionMessage = document.getElementById('completionMessage');
-            const progressBar = document.getElementById('progressBar');
-            const statusMessage = document.getElementById('statusMessage');
-            
-            // محاكاة عملية التقاط الصور
-            let progress = 0;
-            const totalSteps = 5;
-            let currentStep = 0;
-            
-            const progressInterval = setInterval(() => {
-                currentStep++;
-                progress = (currentStep / totalSteps) * 100;
-                progressBar.style.width = `${progress}%`;
+        // بيانات حسابات وهمية لغرض المثال
+        const accounts = [
+            { id: 1, name: "حساب علي", balance: 1200, profitRate: 5, todayProfit: 60 },
+            { id: 2, name: "حساب فاطمة", balance: 2500, profitRate: 3, todayProfit: 75 },
+            { id: 3, name: "حساب محمد", balance: 800, profitRate: 2.5, todayProfit: 20 }
+        ];
+
+        function updateAccountsTable() {
+            const tableBody = document.querySelector("#accountsTable tbody");
+            tableBody.innerHTML = "";
+            accounts.forEach(acc => {
+                acc.todayProfit = ((acc.balance * acc.profitRate) / 100).toFixed(2);
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${acc.id}</td>
+                    <td>${acc.name}</td>
+                    <td>${acc.balance}</td>
+                    <td>${acc.profitRate}</td>
+                    <td>${acc.todayProfit}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function updateAccountSelects() {
+            const profitSelect = document.getElementById("profitAccount");
+            const transSelect = document.getElementById("transAccount");
+            profitSelect.innerHTML = "";
+            transSelect.innerHTML = "";
+            accounts.forEach(acc => {
+                const option1 = document.createElement("option");
+                option1.value = acc.id;
+                option1.innerText = acc.name;
+                profitSelect.appendChild(option1);
                 
-                switch(currentStep) {
-                    case 1:
-                        statusMessage.textContent = "جاري الوصول إلى الكاميرا...";
-                        break;
-                    case 2:
-                        statusMessage.textContent = "جاري التحقق من الإذن...";
-                        break;
-                    case 3:
-                        statusMessage.textContent = "جاري التقاط الصورة الأولى...";
-                        break;
-                    case 4:
-                        statusMessage.textContent = "جاري التقاط الصورة الثانية...";
-                        break;
-                    case 5:
-                        statusMessage.textContent = "جاري حفظ الصور...";
-                        break;
+                const option2 = document.createElement("option");
+                option2.value = acc.id;
+                option2.innerText = acc.name;
+                transSelect.appendChild(option2);
+            });
+        }
+
+        function updateSummary() {
+            const summary = document.getElementById("todayProfitSummary");
+            let sum = 0;
+            accounts.forEach(acc => sum += parseFloat(acc.todayProfit));
+            summary.textContent = `إجمالي مكاسب الحسابات اليوم: ${sum.toFixed(2)} جنيه`;
+        }
+
+        // التحكم في النسبة
+        document.getElementById("profitForm").onsubmit = function(e) {
+            e.preventDefault();
+            const accountId = Number(document.getElementById("profitAccount").value);
+            const newRate = Number(document.getElementById("profitRate").value);
+            let msg = "";
+            if(newRate < 0 || newRate > 100) {
+                msg = '<div class="error-message">يرجى إدخال نسبة صحيحة بين 0 و 100.</div>';
+            } else {
+                const acc = accounts.find(a => a.id === accountId);
+                acc.profitRate = newRate;
+                updateAccountsTable();
+                updateSummary();
+                msg = `<div class="success-message">تم تعديل النسبة بنجاح لحساب ${acc.name}!</div>`;
+            }
+            document.getElementById("profitFormMsg").innerHTML = msg;
+            setTimeout(() => document.getElementById("profitFormMsg").innerHTML = '', 2700);
+        }
+
+        // عمليات الإيداع والسحب
+        document.getElementById("transactionForm").onsubmit = function(e) {
+            e.preventDefault();
+            const accountId = Number(document.getElementById("transAccount").value);
+            const transType = document.getElementById("transType").value;
+            const amount = Number(document.getElementById("transAmount").value);
+            let msg = "";
+            const acc = accounts.find(a => a.id === accountId);
+            if(amount <= 0) {
+                msg = '<div class="error-message">يرجى إدخال مبلغ صحيح.</div>';
+            } else if(transType === "withdraw" && amount > acc.balance) {
+                msg = `<div class="error-message">لا يمكن السحب. الرصيد غير كاف!</div>`;
+            } else {
+                if(transType === "deposit") {
+                    acc.balance += amount;
+                    msg = `<div class="success-message">تم الإيداع ${amount} جنيه إلى ${acc.name}</div>`;
+                } else {
+                    acc.balance -= amount;
+                    msg = `<div class="success-message">تم السحب ${amount} جنيه من ${acc.name}</div>`;
                 }
-                
-                if (currentStep >= totalSteps) {
-                    clearInterval(progressInterval);
-                    
-                    // الانتقال إلى رسالة الإكمال بعد تأخير قصير
-                    setTimeout(() => {
-                        loadingContainer.style.display = 'none';
-                        completionMessage.style.display = 'block';
-                    }, 1000);
-                }
-            }, 1500);
+                updateAccountsTable();
+                updateSummary();
+            }
+            document.getElementById("transactionFormMsg").innerHTML = msg;
+            setTimeout(() => document.getElementById("transactionFormMsg").innerHTML = '', 2700);
+        }
+
+        // تحميل ومزامنة البيانات عند فتح الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAccountsTable();
+            updateAccountSelects();
+            updateSummary();
         });
     </script>
 </body>
